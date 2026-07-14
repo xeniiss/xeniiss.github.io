@@ -42,13 +42,13 @@
 
 ## Current State
 
-- 현재 상태: `DEPLOYED`
-- 완료한 루프: 기본 정적 사이트 골격 1회, 곱셈 게임 UI 및 기본 로직 1회, 세로셈/받아올림 입력 전환 1회, 탭-시작/세로셈 전개 전환 1회, 재시작 버튼 노출 조건 조정 1회, 곱셈 전개 입력 및 힌트 메뉴 정리 1회, 소개/정렬 보강 1회, 자리수곱 정렬 보정 1회, 힌트/정렬 재보정 1회
-- 다음 루프: 브라우저에서 힌트 토글과 전개식 정렬 최종 재확인 [사람 확인 필요]
+- 현재 상태: `DEPLOYING`
+- 완료한 루프: 기본 정적 사이트 골격 1회, 곱셈 게임 UI 및 기본 로직 1회, 세로셈/받아올림 입력 전환 1회, 탭-시작/세로셈 전개 전환 1회, 재시작 버튼 노출 조건 조정 1회, 곱셈 전개 입력 및 힌트 메뉴 정리 1회, 소개/정렬 보강 1회, 자리수곱 정렬 보정 1회, 힌트/정렬 재보정 1회, 힌트 패널 제거 1회
+- 다음 루프: 배포 완료 후 실제 공개 URL 확인 [사람 확인 필요]
 - 현재 Retry 횟수: `0`
 - 현재 오류 fingerprint: 없음
 - Blocker: 없음
-- 마지막 정상 상태: 루트 `index.html`, `styles.css`, `script.js` 곱셈 전개 UI, 화면 탭 시작, 자리별 전개 입력, 힌트 메뉴 반영 완료
+- 마지막 정상 상태: 루트 `index.html`, `styles.css`, `script.js` 곱셈 전개 UI, 화면 탭 시작, 자리별 전개 입력, 힌트 메뉴 제거 전 확인 완료
 
 ## Guardrails
 
@@ -120,6 +120,41 @@
 - 종료 상태
 - 다음 작업
 - 사람 확인 필요 항목
+
+## Loop Log
+
+- Loop ID: `loop-013`
+- 시작 시각: `2026-07-14 16:58:00 KST`
+- 목표: 변경 요청 문서를 확인하고 새로운 Self-Correcting TDD 재루프를 시작하기
+- 시작 상태: `HITL_REQUIRED`
+- 가설: `CHANGE_REQUEST.md`가 없어서 수정 범위와 완료 기준을 확정할 수 없다
+- Act: 저장소, `AORR.md`, `MEMORY.md`, 현재 코드, Git 상태, 마지막 커밋을 확인했다
+- 변경 파일: `MEMORY.md`
+- Verifier: `git status --short`, `git branch --show-current`, `git remote -v`, `git log --oneline -n 8`, 파일 존재 확인
+- 테스트 결과: `CHANGE_REQUEST.md` 파일 부재 확인, 현재 브랜치 `main`, 원격 `origin https://github.com/xeniiss/xeniiss.github.io.git`, 현재 `HEAD` `375ff5e`
+- Claude Code CLI: `claude` 실행 가능, `--model sonnet` 검증 시 `Credit balance is too low`로 모델 사용 불가
+- exit code: `0`
+- 오류 fingerprint: `CHANGE_REQUEST.md missing`
+- Retry 횟수: `0`
+- 종료 상태: `HITL_REQUIRED`
+- 다음 작업: 사용자가 `CHANGE_REQUEST.md`를 제공하거나 변경 요청 원문을 다시 전달해야 함
+- 사람 확인 필요 항목: 변경 요청 범위, 완료 기준, 수정 허용 파일, 재배포 승인 여부
+
+- Loop ID: `loop-012`
+- 시작 시각: `2026-07-14 07:53:10 KST`
+- 목표: 힌트 패널과 관련 스크립트를 제거하고 정적 검증을 통과하기
+- 시작 상태: `DEPLOYED`
+- 가설: 힌트 전용 버튼, 패널, 렌더링 함수를 삭제하면 사용자 요청을 충족하면서 게임 본문은 유지된다
+- Act: `index.html`, `script.js`, `styles.css`, `MEMORY.md`를 수정해 힌트 패널 UI와 렌더링 로직을 제거
+- 변경 파일: `index.html`, `script.js`, `styles.css`, `MEMORY.md`
+- Verifier: `node --check script.js`, `python3 -m http.server` + `curl -I`
+- 테스트 결과: 정적 서버에서 `index.html`, `styles.css`, `script.js` 모두 `HTTP 200` 응답 확인
+- exit code: `0`
+- 오류 fingerprint: 없음
+- Retry 횟수: `0`
+- 종료 상태: `DEPLOY_READY`
+- 다음 작업: 배포할지 여부 확인 또는 브라우저 최종 점검 [사람 확인 필요]
+- 사람 확인 필요 항목: 배포 여부, 브라우저 최종 렌더 확인
 
 ## Execution Log
 

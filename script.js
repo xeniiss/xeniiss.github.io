@@ -26,9 +26,6 @@ if (header && navToggle) {
 if (gameShell) {
   const difficultySelect = gameShell.querySelector("[data-difficulty]");
   const roundsSelect = gameShell.querySelector("[data-rounds]");
-  const hintToggle = gameShell.querySelector("[data-hint-toggle]");
-  const hintPanel = gameShell.querySelector("[data-hint-panel]");
-  const hintSteps = gameShell.querySelector("[data-hint-steps]");
   const pauseButton = gameShell.querySelector("[data-pause]");
   const restartButton = gameShell.querySelector("[data-restart]");
   const leftOperandNode = gameShell.querySelector("[data-left]");
@@ -66,7 +63,6 @@ if (gameShell) {
     partialEntries: [],
     answerEntries: [],
     validation: null,
-    hintOpen: false,
   };
 
   function readBestScore() {
@@ -124,17 +120,6 @@ if (gameShell) {
     updateTimer();
   };
 
-  const setHintPanelVisible = (visible) => {
-    state.hintOpen = visible;
-    if (hintToggle) {
-      hintToggle.setAttribute("aria-expanded", String(visible));
-      hintToggle.textContent = visible ? "힌트 닫기" : "힌트 메뉴";
-    }
-    if (hintPanel) {
-      hintPanel.hidden = !visible;
-    }
-  };
-
   const buildPartialRows = (multiplicand, multiplier) => {
     const digits = String(multiplicand)
       .split("")
@@ -155,71 +140,6 @@ if (gameShell) {
         expectedDigits: reverseDigits(shiftedValue),
       };
     });
-  };
-
-  const renderHintSteps = () => {
-    if (!hintSteps) return;
-    hintSteps.innerHTML = "";
-
-    if (!state.currentProblem) return;
-
-    state.currentProblem.partialRows.forEach((row, index) => {
-      const step = document.createElement("article");
-      step.className = "method-step";
-
-      const stepIndex = document.createElement("div");
-      stepIndex.className = "method-step-index";
-      stepIndex.textContent = String(index + 1);
-
-      const stepBody = document.createElement("div");
-      stepBody.className = "method-step-body";
-
-      const title = document.createElement("h4");
-      title.textContent = row.label;
-
-      const formula = document.createElement("p");
-      formula.className = "method-formula";
-      formula.textContent = row.formula;
-
-      const detail = document.createElement("p");
-      detail.className = "method-detail";
-      detail.textContent = `${row.rawValue}를 ${index}칸 옮겨서 ${row.shiftedValue}로 써요.`;
-
-      stepBody.appendChild(title);
-      stepBody.appendChild(formula);
-      stepBody.appendChild(detail);
-      step.appendChild(stepIndex);
-      step.appendChild(stepBody);
-      hintSteps.appendChild(step);
-    });
-
-    const sumStep = document.createElement("article");
-    sumStep.className = "method-step method-step-sum";
-
-    const sumIndex = document.createElement("div");
-    sumIndex.className = "method-step-index";
-    sumIndex.textContent = "합";
-
-    const sumBody = document.createElement("div");
-    sumBody.className = "method-step-body";
-
-    const sumTitle = document.createElement("h4");
-    sumTitle.textContent = "전개식 더하기";
-
-    const sumFormula = document.createElement("p");
-    sumFormula.className = "method-formula method-formula-sum";
-    sumFormula.textContent = `${state.currentProblem.partialRows.map((row) => row.shiftedValue).join(" + ")} = ${state.currentProblem.multiplicand * state.currentProblem.multiplier}`;
-
-    const sumDetail = document.createElement("p");
-    sumDetail.className = "method-detail";
-    sumDetail.textContent = "각 자리수의 계산값을 더하면 정답이 돼요.";
-
-    sumBody.appendChild(sumTitle);
-    sumBody.appendChild(sumFormula);
-    sumBody.appendChild(sumDetail);
-    sumStep.appendChild(sumIndex);
-    sumStep.appendChild(sumBody);
-    hintSteps.appendChild(sumStep);
   };
 
   const updateValidation = (partialErrors, answerErrors) => {
@@ -417,7 +337,6 @@ if (gameShell) {
     state.partialEntries = [];
     state.answerEntries = [];
     clearValidation();
-    setHintPanelVisible(false);
 
     if (pauseButton) pauseButton.textContent = "일시정지";
     if (restartButton) restartButton.hidden = true;
@@ -425,7 +344,6 @@ if (gameShell) {
     if (rightOperandNode) rightOperandNode.textContent = "";
     if (partialRowsNode) partialRowsNode.innerHTML = "";
     if (answerRow) answerRow.innerHTML = "";
-    if (hintSteps) hintSteps.innerHTML = "";
 
     setMessage("화면을 누르면 첫 문제가 시작됩니다.");
     updateScoreboard();
@@ -596,10 +514,6 @@ if (gameShell) {
     refreshSlots();
   };
 
-  const toggleHintPanel = () => {
-    setHintPanelVisible(!state.hintOpen);
-  };
-
   const shouldIgnoreStartTarget = (target) => target instanceof Element && Boolean(target.closest(interactiveSelector));
 
   gameShell.addEventListener("pointerdown", (event) => {
@@ -625,7 +539,6 @@ if (gameShell) {
 
   pauseButton?.addEventListener("click", togglePause);
   restartButton?.addEventListener("click", startGame);
-  hintToggle?.addEventListener("click", toggleHintPanel);
 
   keypadButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -658,6 +571,5 @@ if (gameShell) {
   });
 
   updateBestScore();
-  setHintPanelVisible(false);
   resetGame();
 }
