@@ -42,13 +42,13 @@
 
 ## Current State
 
-- 현재 상태: `DEPLOYING`
+- 현재 상태: `DEPLOYED`
 - 완료한 루프: 기본 정적 사이트 골격 1회, 곱셈 게임 UI 및 기본 로직 1회, 세로셈/받아올림 입력 전환 1회, 탭-시작/세로셈 전개 전환 1회, 재시작 버튼 노출 조건 조정 1회, 곱셈 전개 입력 및 힌트 메뉴 정리 1회, 소개/정렬 보강 1회, 자리수곱 정렬 보정 1회, 힌트/정렬 재보정 1회, 힌트 패널 제거 1회
-- 다음 루프: 배포 완료 후 실제 공개 URL 확인 [사람 확인 필요]
+- 다음 루프: 배포 후 브라우저에서 최종 렌더 재확인 [사람 확인 필요]
 - 현재 Retry 횟수: `0`
 - 현재 오류 fingerprint: 없음
 - Blocker: 없음
-- 마지막 정상 상태: 루트 `index.html`, `styles.css`, `script.js` 곱셈 전개 UI, 화면 탭 시작, 자리별 전개 입력, 힌트 메뉴 제거 전 확인 완료
+- 마지막 정상 상태: 루트 `index.html`, `styles.css`, `script.js` 곱셈 전개 UI, 화면 탭 시작, 자리별 전개 입력, 힌트 메뉴 제거 후 배포 확인 완료
 
 ## Guardrails
 
@@ -122,6 +122,22 @@
 - 사람 확인 필요 항목
 
 ## Loop Log
+
+- Loop ID: `loop-014`
+- 시작 시각: `2026-07-14 17:27:25 KST`
+- 목표: 힌트 패널 제거 변경사항을 GitHub Pages에 배포하고 응답을 확인하기
+- 시작 상태: `DEPLOYING`
+- 가설: 최신 커밋 `6824bc7`를 `main`에 push하면 GitHub Pages가 새 상태를 서빙한다
+- Act: 커밋 `6824bc7`를 push하고 `https://xeniiss.github.io`의 HTTP 200 응답을 확인했다
+- 변경 파일: `MEMORY.md`
+- Verifier: `git push`, `curl -I https://xeniiss.github.io`
+- 테스트 결과: GitHub Pages에서 `HTTP 200` 응답 확인
+- exit code: `0`
+- 오류 fingerprint: 없음
+- Retry 횟수: `0`
+- 종료 상태: `DEPLOYED`
+- 다음 작업: 브라우저에서 최종 렌더 확인 [사람 확인 필요]
+- 사람 확인 필요 항목: 배포된 사이트의 최종 렌더 확인
 
 - Loop ID: `loop-013`
 - 시작 시각: `2026-07-14 16:58:00 KST`
