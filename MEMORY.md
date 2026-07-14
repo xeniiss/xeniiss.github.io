@@ -42,9 +42,9 @@
 
 ## Current State
 
-- 현재 상태: `DEPLOYED`
-- 완료한 루프: 기본 정적 사이트 골격 1회, 곱셈 게임 UI 및 기본 로직 1회, 세로셈/받아올림 입력 전환 1회, 탭-시작/세로셈 전개 전환 1회, 재시작 버튼 노출 조건 조정 1회, 곱셈 전개 입력 및 힌트 메뉴 정리 1회
-- 다음 루프: 브라우저에서 전개식 입력 순서와 힌트 메뉴 동작 재확인 [사람 확인 필요]
+- 현재 상태: `VERIFYING`
+- 완료한 루프: 기본 정적 사이트 골격 1회, 곱셈 게임 UI 및 기본 로직 1회, 세로셈/받아올림 입력 전환 1회, 탭-시작/세로셈 전개 전환 1회, 재시작 버튼 노출 조건 조정 1회, 곱셈 전개 입력 및 힌트 메뉴 정리 1회, 소개/정렬 보강 1회
+- 다음 루프: 브라우저에서 힌트 토글, 소개 영역, 전개식 정렬 재확인 [사람 확인 필요]
 - 현재 Retry 횟수: `0`
 - 현재 오류 fingerprint: 없음
 - Blocker: 없음
@@ -234,3 +234,51 @@
 - 종료 상태: `DEPLOYED`
 - 다음 작업: 브라우저에서 전개식 입력과 힌트 메뉴 동작 재확인 [사람 확인 필요]
 - 사람 확인 필요 항목: 브라우저에서의 전개식 입력과 힌트 메뉴 세부 상호작용
+
+- Loop ID: `loop-008`
+- 시작 시각: `2026-07-14 07:20:42 KST`
+- 목표: 힌트 토글, 자기소개 영역, 전개식 세로 정렬을 바로잡기
+- 시작 상태: `ACTING`
+- 가설: 힌트 패널 상태를 초기화하고 소개 섹션을 실제 프로필로 채우며, 셀 폭을 고정하면 세 가지 불만이 함께 해소된다
+- Act: `index.html`, `script.js`, `styles.css`, `MEMORY.md`를 수정해 힌트 토글, 소개 섹션, 세로 정렬을 보강
+- 변경 파일: `index.html`, `script.js`, `styles.css`, `MEMORY.md`
+- Verifier: `node --check script.js`, `python3 -m http.server` + `curl`
+- 테스트 결과: `script.js` 문법 통과, `HTTP 200` 응답 확인
+- exit code: `0`
+- 오류 fingerprint: 없음
+- Retry 횟수: `0`
+- 종료 상태: `VERIFYING`
+- 다음 작업: 브라우저에서 힌트 토글, 소개 영역, 전개식 세로 정렬 확인 [사람 확인 필요]
+- 사람 확인 필요 항목: 힌트 패널 열림/닫힘, 소개 내용 표시, 전개식 세로 정렬
+
+- Loop ID: `loop-009`
+- 시작 시각: `2026-07-14 07:42:34 KST`
+- 목표: 힌트 패널 토글과 전개식 세로 정렬을 다시 맞추기
+- 시작 상태: `ACTING`
+- 가설: 항상 보이던 보조 패널을 제거하고 row 배치 방향을 바로잡으면 사용자가 본 두 문제가 함께 해소된다
+- Act: `index.html`, `script.js`, `styles.css`, `MEMORY.md`를 수정해 힌트 패널과 전개식 정렬을 보강
+- 변경 파일: `index.html`, `script.js`, `styles.css`, `MEMORY.md`
+- Verifier: `node --check script.js`, `python3 -m http.server` + `curl`
+- 테스트 결과: `script.js` 문법 통과, `HTTP 200` 응답 확인
+- exit code: `0`
+- 오류 fingerprint: 없음
+- Retry 횟수: `0`
+- 종료 상태: `VERIFYING`
+- 다음 작업: 브라우저에서 힌트 패널 토글과 전개식 정렬 확인 [사람 확인 필요]
+- 사람 확인 필요 항목: 힌트 패널 토글, 전개식 상하 정렬
+
+- Loop ID: `loop-010`
+- 시작 시각: `2026-07-14 07:45:25 KST`
+- 목표: 자리수곱이 실제 전개식 값과 일치하도록 수정하기
+- 시작 상태: `ACTING`
+- 가설: partial row의 정답 기준을 자리값 이동 후의 수로 바꾸면 입력칸 불일치가 해소된다
+- Act: `script.js`의 `buildPartialRows`를 수정해 `expectedDigits`를 이동된 값 기준으로 계산
+- 변경 파일: `script.js`, `MEMORY.md`
+- Verifier: `node --check script.js`, `python3 -m http.server` + `curl`
+- 테스트 결과: `script.js` 문법 통과, 로컬 정적 서버 `HTTP 200` 응답 확인
+- exit code: `0`
+- 오류 fingerprint: 없음
+- Retry 횟수: `0`
+- 종료 상태: `VERIFYING`
+- 다음 작업: 브라우저에서 자리수곱 입력칸과 정답 판정 확인 [사람 확인 필요]
+- 사람 확인 필요 항목: 브라우저에서의 자리수곱 입력칸 일치 여부

@@ -152,7 +152,7 @@ if (gameShell) {
         rawValue,
         shiftedValue,
         displayShift: index,
-        expectedDigits: reverseDigits(rawValue),
+        expectedDigits: reverseDigits(shiftedValue),
       };
     });
   };
@@ -292,8 +292,6 @@ if (gameShell) {
       const rowElement = document.createElement("div");
       rowElement.className = "math-row";
       rowElement.dataset.rowIndex = String(rowIndex);
-      rowElement.style.setProperty("--row-shift", String(row.displayShift));
-
       const label = document.createElement("div");
       label.className = "math-row-label";
       label.textContent = row.label;
@@ -419,6 +417,7 @@ if (gameShell) {
     state.partialEntries = [];
     state.answerEntries = [];
     clearValidation();
+    setHintPanelVisible(false);
 
     if (pauseButton) pauseButton.textContent = "일시정지";
     if (restartButton) restartButton.hidden = true;
