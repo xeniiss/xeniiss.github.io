@@ -91,7 +91,7 @@
             <select data-difficulty>
               <option value="1">1자리 × 1자리</option>
               <option value="2" selected>2자리 × 1자리</option>
-              <option value="3">2자리 × 2자리</option>
+              <option value="3">3자리 × 1자리</option>
             </select>
           </label>
           <label class="field">
@@ -103,9 +103,10 @@
             </select>
           </label>
           <div class="toolbar-actions">
+            <button class="button button-secondary" type="button" data-hint-toggle aria-expanded="false">힌트 메뉴</button>
             <p class="toolbar-note">화면을 누르면 바로 시작됩니다.</p>
             <button class="button button-secondary" type="button" data-pause>일시정지</button>
-            <button class="button button-secondary" type="button" data-restart>다시 시작</button>
+            <button class="button button-secondary" type="button" data-restart hidden>다시 시작</button>
           </div>
         </div>
 
@@ -117,26 +118,87 @@
         </div>
 
         <div class="problem-panel">
-          <div class="problem" aria-label="세로셈 곱셈 문제">
-            <div class="vertical-expression">
-              <div class="vertical-line">
-                <span class="operator-sign" aria-hidden="true">×</span>
-                <span data-right class="operand operand-right"></span>
+          <div class="problem-stage">
+            <section class="problem-card problem-card-main" aria-label="세로셈 곱셈 문제">
+              <div class="problem-badges" aria-hidden="true">
+                <span class="pill pill-blue">십의 자리</span>
+                <span class="pill pill-orange">일의 자리</span>
               </div>
-              <div class="vertical-line vertical-line-top">
-                <span data-left class="operand operand-top"></span>
+
+              <div class="vertical-expression">
+                <div class="vertical-line">
+                  <span data-left class="operand operand-top"></span>
+                </div>
+                <div class="vertical-line">
+                  <span class="operator-sign" aria-hidden="true">×</span>
+                  <span data-right class="operand operand-right"></span>
+                </div>
+                <div class="vertical-rule" aria-hidden="true"></div>
               </div>
-            </div>
+
+              <div class="math-stack">
+                <div class="partial-rows" data-partial-rows></div>
+                <div class="answer-wrap">
+                  <div class="row-label">정답</div>
+                  <div class="answer-row" aria-label="정답 입력칸" data-answer-row></div>
+                </div>
+              </div>
+
+              <p class="feedback" data-feedback>화면을 누르면 첫 문제가 시작됩니다.</p>
+            </section>
+
+            <aside class="method-column" aria-label="전개식 단계">
+              <article class="method-card method-card-ones">
+                <div class="method-index">1</div>
+                <div class="method-title-wrap">
+                  <h3>일의 자리부터 곱해요</h3>
+                  <p class="method-formula" data-ones-formula>7 × 4 = 28</p>
+                </div>
+                <div class="method-box">28을 일의 자리에 써요.</div>
+              </article>
+
+              <article class="method-card method-card-tens">
+                <div class="method-index">2</div>
+                <div class="method-title-wrap">
+                  <h3>십의 자리도 곱해요</h3>
+                  <p class="method-formula" data-tens-formula>20 × 4 = 80</p>
+                </div>
+                <div class="method-box">80을 십의 자리에 맞춰 써요.</div>
+              </article>
+
+              <article class="method-card method-card-sum">
+                <div class="method-index">3</div>
+                <div class="method-title-wrap">
+                  <h3>두 값을 더해요</h3>
+                  <p class="method-formula method-formula-sum">
+                    <span data-first-sum>28</span>
+                    <span class="sum-plus" aria-hidden="true">+</span>
+                    <span data-second-sum>80</span>
+                  </p>
+                </div>
+                <div class="sum-result" data-sum-result>108</div>
+              </article>
+            </aside>
           </div>
-          <div class="math-stack">
-            <div class="partial-rows" data-partial-rows></div>
-            <div class="answer-wrap">
-              <div class="row-label">정답</div>
-              <div class="answer-row" aria-label="정답 입력칸" data-answer-row></div>
-            </div>
+
+          <div class="game-note">
+            <div class="game-note-badge">핵심 포인트</div>
+            <p>자릿수를 맞춰 쓰면 계산이 더 쉬워져요. 각 자리수의 곱을 오른쪽부터 차례대로 더해 보세요.</p>
           </div>
-          <p class="feedback" data-feedback>화면을 누르면 첫 문제가 시작됩니다.</p>
         </div>
+
+        <aside class="method-column" data-hint-panel hidden aria-label="힌트 메뉴">
+          <div class="method-card method-card-hint">
+            <div class="method-header">
+              <span class="method-index">힌트</span>
+              <div class="method-title-wrap">
+                <h3>전개식 보기</h3>
+                <p class="method-formula">현재 문제의 자리수별 계산 과정을 보여줘요.</p>
+              </div>
+            </div>
+            <div class="method-steps" data-hint-steps></div>
+          </div>
+        </aside>
 
         <div class="keypad" aria-label="숫자 키패드">
           <button type="button" data-key="1">1</button>
@@ -150,7 +212,6 @@
           <button type="button" data-key="9">9</button>
           <button type="button" class="keypad-wide" data-clear>지우기</button>
           <button type="button" data-key="0">0</button>
-          <button type="button" class="keypad-wide" data-submit>제출</button>
         </div>
       </div>
     </section>

@@ -340,40 +340,117 @@ h3 {
   padding: 1rem;
 }
 
-.problem {
+.problem-stage {
   display: grid;
-  place-items: center;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.problem-card,
+.method-card,
+.game-note {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(238, 243, 246, 0.94));
+  box-shadow: var(--shadow);
+}
+
+.problem-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.problem-card-main {
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.pill,
+.game-note-badge,
+.method-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.pill {
+  min-height: 2rem;
+  padding: 0.35rem 0.8rem;
+  color: #fff;
+  font-size: 0.82rem;
+}
+
+.pill-blue {
+  background: #1f6feb;
+}
+
+.pill-orange {
+  background: #f97316;
 }
 
 .vertical-expression {
   display: grid;
-  gap: 0.45rem;
-  justify-items: end;
+  gap: 0.35rem;
+  justify-items: center;
   width: fit-content;
   margin-inline: auto;
-  font-size: clamp(1.85rem, 4vw, 3rem);
+  padding-top: 0.2rem;
+  font-size: clamp(2.15rem, 5vw, 3.4rem);
   font-weight: 800;
 }
 
 .vertical-line {
   display: flex;
-  align-items: center;
-  gap: 0.55rem;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.35rem;
   min-width: 0;
-}
-
-.vertical-line-top {
-  padding-inline-start: 1.65rem;
+  width: 100%;
 }
 
 .operator-sign {
   color: var(--accent);
+  font-size: 1.05em;
+  line-height: 1;
 }
 
 .operand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.06em;
   min-width: 2ch;
   text-align: right;
   letter-spacing: 0.04em;
+}
+
+.operand-digit {
+  display: inline-block;
+}
+
+.operand-digit--ten {
+  color: #1f6feb;
+}
+
+.operand-digit--one {
+  color: #f97316;
+}
+
+.vertical-rule {
+  width: min(100%, 19rem);
+  height: 0.28rem;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1f6feb 0%, #f97316 100%);
 }
 
 .math-stack,
@@ -385,6 +462,7 @@ h3 {
 
 .math-stack {
   gap: 0.8rem;
+  width: 100%;
 }
 
 .partial-rows {
@@ -397,7 +475,9 @@ h3 {
 .math-row {
   display: grid;
   gap: 0.4rem;
-  justify-items: center;
+  justify-items: end;
+  width: 100%;
+  padding-inline-end: calc(var(--row-shift, 0) * 3rem);
 }
 
 .math-row-label,
@@ -414,7 +494,8 @@ h3 {
   flex-wrap: wrap;
   flex-direction: row-reverse;
   gap: 0.5rem;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .math-cell {
@@ -443,10 +524,198 @@ h3 {
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
 }
 
+.math-cell.is-error {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
 .feedback {
   margin: 0;
   min-height: 1.5rem;
   text-align: center;
+  color: var(--muted);
+}
+
+.method-column {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.method-column[hidden] {
+  display: none;
+}
+
+.method-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.method-card-hint {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+}
+
+.method-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.method-steps {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.method-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(22, 32, 42, 0.12);
+}
+
+.method-step-sum {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.method-step-index {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.method-step-sum .method-step-index {
+  background: #22c55e;
+}
+
+.method-step-body {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.method-step-body h4,
+.method-step-body p {
+  margin: 0;
+}
+
+.method-detail {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.method-formula-sum {
+  color: #15803d;
+}
+
+.method-card-ones {
+  border-color: rgba(31, 111, 235, 0.22);
+}
+
+.method-card-tens {
+  border-color: rgba(249, 115, 22, 0.22);
+}
+
+.method-card-sum {
+  border-color: rgba(34, 197, 94, 0.22);
+}
+
+.method-index {
+  width: 2.1rem;
+  height: 2.1rem;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.95rem;
+  flex: none;
+}
+
+.method-card-ones .method-index {
+  background: #1f6feb;
+}
+
+.method-card-tens .method-index {
+  background: #f97316;
+}
+
+.method-card-sum .method-index {
+  background: #22c55e;
+}
+
+.method-title-wrap {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.method-formula {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.method-formula-sum {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+}
+
+.sum-plus {
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.method-box {
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px dashed rgba(22, 32, 42, 0.14);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.sum-result {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  padding: 0.55rem 1rem;
+  border-radius: 16px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.game-note {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+}
+
+.game-note-badge {
+  flex: none;
+  min-height: 2.2rem;
+  padding: 0.35rem 0.9rem;
+  background: #facc15;
+  color: #3f2d00;
+}
+
+.game-note p {
+  margin: 0;
   color: var(--muted);
 }
 
@@ -501,6 +770,10 @@ h3 {
     grid-template-columns: 1fr 1fr;
   }
 
+  .problem-stage {
+    grid-template-columns: 1fr;
+  }
+
   .toolbar-actions {
     justify-content: flex-start;
   }
@@ -531,6 +804,12 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .problem-card,
+  .method-card,
+  .game-note {
+    padding: 0.9rem;
+  }
+
   .keypad {
     gap: 0.6rem;
   }
@@ -543,6 +822,10 @@ h3 {
   .math-cell--partial {
     width: 2.2rem;
     height: 2.45rem;
+  }
+
+  .method-card-sum .sum-result {
+    font-size: 1.6rem;
   }
 }
 
